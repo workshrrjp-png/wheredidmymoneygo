@@ -54,7 +54,7 @@ app.delete("/api/expenses/:id", (req, res) => {
 });
 
 // This fixes "Not Found" - serve index for any other route
-app.get("*", (req, res) => {
+app.use((req, res) => {
   const indexFile = path.join(publicPath, "index.html");
   if (fs.existsSync(indexFile)) {
     res.sendFile(indexFile);
