@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Expense Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+
+        <div class="brand">
+            <div class="logo">₹</div>
+
+            <div>
+                <h1>Where Did My Money Go?</h1>
+                <p>Track your expenses and understand your spending.</p>
+            </div>
+        </div>
+
+        <button id="openModalBtn" class="add-btn">
+            + Add Expense
+        </button>
+
+    </header>
+
+
+    <main class="container">
+
+        <!-- Summary Cards -->
+        <section class="summary-grid">
+
+            <div class="summary-card">
+                <div class="card-icon blue">₹</div>
+
+                <div>
+                    <p>Total Spent</p>
+                    <h2 id="totalSpent">₹0.00</h2>
+                </div>
+            </div>
+
+
+            <div class="summary-card">
+                <div class="card-icon green">₹</div>
+
+                <div>
+                    <p>This Month</p>
+                    <h2 id="monthlySpent">₹0.00</h2>
+                </div>
+            </div>
+
+
+            <div class="summary-card">
+                <div class="card-icon purple">#</div>
+
+                <div>
+                    <p>Total Expenses</p>
+                    <h2 id="totalExpenses">0</h2>
+                </div>
+            </div>
+
+
+            <div class="summary-card">
+                <div class="card-icon orange">★</div>
+
+                <div>
+                    <p>Top Category</p>
+                    <h2 id="topCategory">-</h2>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- Dashboard -->
+        <section class="dashboard-grid">
+
+            <!-- Categories -->
+            <div class="panel">
+
+                <div class="panel-title">
+                    <div>
+                        <h2>Spending by Category</h2>
+                        <p>See where your money is going.</p>
+                    </div>
+                </div>
+
+                <div id="categoryList" class="category-list">
+                    <p class="empty">No expenses yet.</p>
+                </div>
+
+            </div>
+
+
+            <!-- Recent Expenses -->
+            <div class="panel">
+
+                <div class="panel-title">
+
+                    <div>
+                        <h2>Recent Expenses</h2>
+                        <p>Your latest spending.</p>
+                    </div>
+
+                </div>
+
+                <div id="recentExpenses">
+                    <p class="empty">
+                        No expenses yet.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Expense History -->
+        <section class="panel history-panel">
+
+            <div class="history-header">
+
+                <div>
+                    <h2>Expense History</h2>
+                    <p>Manage all your saved expenses.</p>
+                </div>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search expense..."
+                >
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Expense</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Payment</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="expenseTableBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Add Expense Modal -->
+    <div id="expenseModal" class="modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Add New Expense</h2>
+                    <p>Enter your spending details.</p>
+                </div>
+
+                <button id="closeModalBtn" class="close-btn">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="expenseForm">
+
+                <!-- Expense Name -->
+                <div class="form-group">
+
+                    <label for="title">
+                        Expense Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="Example: Lunch"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Amount -->
+                <div class="form-group">
+
+                    <label for="amount">
+                        Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        placeholder="Example: 500"
+                        min="1"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Category -->
+                <div class="form-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select id="category" required>
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="Food">
+                            🍔 Food
+                        </option>
+
+                        <option value="Travel">
+                            🚗 Travel
+                        </option>
+
+                        <option value="Shopping">
+                            🛍 Shopping
+                        </option>
+
+                        <option value="Entertainment">
+                            🎮 Entertainment
+                        </option>
+
+                        <option value="Bills">
+                            📄 Bills
+                        </option>
+
+                        <option value="Education">
+                            📚 Education
+                        </option>
+
+                        <option value="Health">
+                            ❤️ Health
+                        </option>
+
+                        <option value="Other">
+                            📦 Other
+                        </option>
+
+                        <option value="custom">
+                            + Add My Own Category
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Custom Category -->
+                <div
+                    id="customCategoryContainer"
+                    class="form-group hidden"
+                >
+
+                    <label for="customCategory">
+                        Your Category
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customCategory"
+                        placeholder="Example: Pets"
+                    >
+
+                </div>
+
+
+                <!-- Date -->
+                <div class="form-group">
+
+                    <label for="date">
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Payment -->
+                <div class="form-group">
+
+                    <label for="paymentMethod">
+                        Payment Method
+                    </label>
+
+                    <select id="paymentMethod">
+
+                        <option value="Cash">
+                            Cash
+                        </option>
+
+                        <option value="UPI">
+                            UPI
+                        </option>
+
+                        <option value="Debit Card">
+                            Debit Card
+                        </option>
+
+                        <option value="Credit Card">
+                            Credit Card
+                        </option>
+
+                        <option value="Bank Transfer">
+                            Bank Transfer
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Notes -->
+                <div class="form-group">
+
+                    <label for="notes">
+                        Notes
+                    </label>
+
+                    <textarea
+                        id="notes"
+                        rows="3"
+                        placeholder="Optional notes..."
+                    ></textarea>
+
+                </div>
+
+
+                <p id="formMessage"></p>
+
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Expense
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
